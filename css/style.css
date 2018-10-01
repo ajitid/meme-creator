@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Impact";
+  src: url("../fonts/impact.woff") format('woff');
+}
+
+body {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}

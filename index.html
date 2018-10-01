@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ajit Singh</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- <link rel="stylesheet" href="debug.css"> -->
+</head>
+
+<body class="bg-grey-lighter text-grey-darkest uppercase">
+  <nav class="text-right" role="navigation" aria-label="main navigation">
+    <div class="mr-3 my-2">
+      <img src="images/github.svg" alt="Github" width="13">
+      <a href="https://github.com/ajitid/meme-creator" target="_blank" class="no-underline text-grey-dark hover:text-grey-darker">Github</a>
+    </div>
+  </nav>
+
+  <div id="upload_container" class="flex justify-center items-center">
+    <div>
+      <form name="image_upload_form">
+        <label for="image_upload">
+          <button type="button" onclick="image_upload_form.image_upload.click()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light mx-2">
+            Upload Image
+          </button>
+          <input type="file" id="image_upload" accept="image/png, image/jpeg" class="hidden">
+        </label>
+        <button class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+          Done Uploading
+        </button>
+      </form>
+      <div id="image_container" class="mt-4">
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="meme_canvas_container" class="hidden justify-center items-center">
+    <div>
+      <div class="mb-4">
+        <label class="font-sans">
+          Image Size:
+          <input type="number" class="font-sans p-2 border mb-2" id="meme_image_width_input">
+        </label>
+        <button type="button" onclick="saveAsImage()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+          Save as Image
+        </button>
+        <br />
+        <input type="text" id="meme_upper_text_input" placeholder="Upper Text" class="font-sans p-2 border">
+        <input type="text" id="meme_lower_text_input" placeholder="Lower Text" class="font-sans p-2 border">
+      </div>
+      <div class="flex items-center justify-center">
+        <canvas id="meme_canvas" class="bg-white">
+          Your browser does not support HTML5 Canvas, please update or change your browser.
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/app.js"></script>
+</body>
+
+</html>
