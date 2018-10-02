@@ -1,7 +1,5 @@
 TODO
 
-- [ ] phone responsive
-- [ ] fix stretching of image
-- [ ] Dark theme support
+- [x] Dark theme support
 - [ ] Breaking words
 - [ ] offline support / service worker

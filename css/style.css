@@ -6,3 +6,7 @@
 body {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+
+.bg-pure-black {
+  background-color: black;
+}

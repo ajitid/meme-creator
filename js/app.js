@@ -164,7 +164,7 @@ function saveAsImage () { // eslint-disable-line
 
 function toggleTheme () { // eslint-disable-line
   canvasSet.classList.toggle('bg-white')
-  canvasSet.classList.toggle('bg-black')
+  canvasSet.classList.toggle('bg-pure-black')
   if (memeCanvasProps.fontColor === 'black') {
     memeCanvasProps.fontColor = 'white'
     memeCanvasProps.bgColor = 'black'
