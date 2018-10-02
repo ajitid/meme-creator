@@ -28,7 +28,7 @@ imageUpload.addEventListener('change', e => {
   memeImg = img.cloneNode()
   img.onload = e => {
     const htw = img.height / img.width
-    memeImg.width = 450
+    memeImg.width = 350
     memeImg.height = memeImg.width * htw
   }
   img.width = 300
