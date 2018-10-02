@@ -1,5 +1,17 @@
-TODO
+# Meme Creator
+
+[![Made with JavaScript](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+## Features
+
+- No data consumption once site is loaded
+- Dark and light theme
+- Control image resolution 
+
+## TODO
 
 - [x] Dark theme support
 - [ ] Breaking words
-- [ ] offline support / service worker
+- [ ] Offline support
