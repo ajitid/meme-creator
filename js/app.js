@@ -123,7 +123,7 @@ function setMemeLowerText (text) {
 
 memeImgWidthInput.addEventListener('input', e => {
   const width = parseInt(e.target.value)
-  if (!width || width < 5) return
+  if (!width || width < 40) return
   setWidthAndRepaint(width)
 })
 
