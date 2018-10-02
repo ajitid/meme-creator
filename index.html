@@ -48,25 +48,30 @@
     <div>
       <div class="flex justify-center">
         <div class="mb-4">
-          <label class="font-sans">
+          <label class="font-sans mr-2">
             Image Width:
             <input type="number" class="font-sans p-2 border mb-2" id="meme_image_width_input">
           </label>
-          <button type="button" onclick="saveAsImage()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+          <button type="button" onclick="saveAsImage()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light mr-2">
             Save as Image
+          </button>
+          <button type="button" onclick="toggleTheme()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+            Toggle Theme
           </button>
           <br />
           <input type="text" id="meme_upper_text_input" placeholder="Upper Text" class="font-sans p-2 border">
           <input type="text" id="meme_lower_text_input" placeholder="Lower Text" class="font-sans p-2 border">
         </div>
       </div>
-      <div class="flex items-center justify-center flex-col mb-4">
-        <canvas id="canvas_txt_above" class="bg-white">
-        </canvas>
-        <canvas id="canvas_img" class="bg-white">
-        </canvas>
-        <canvas id="canvas_txt_below" class="bg-white">
-        </canvas>
+      <div class="flex items-center justify-center">
+        <div id="canvas_set" class="flex items-center justify-center flex-col bg-white">
+          <canvas id="canvas_txt_above">
+          </canvas>
+          <canvas id="canvas_img">
+          </canvas>
+          <canvas id="canvas_txt_below">
+          </canvas>
+        </div>
       </div>
     </div>
   </div>

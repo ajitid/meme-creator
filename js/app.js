@@ -8,6 +8,7 @@ const memeImgWidthInput = document.querySelector('#meme_image_width_input')
 const imgCanvas = document.querySelector('#canvas_img')
 const txtAboveCanvas = document.querySelector('#canvas_txt_above')
 const txtBelowCanvas = document.querySelector('#canvas_txt_below')
+const canvasSet = document.querySelector('#canvas_set')
 const imgCtx = imgCanvas.getContext('2d')
 const txtAboveCtx = txtAboveCanvas.getContext('2d')
 const txtBelowCtx = txtBelowCanvas.getContext('2d')
@@ -17,7 +18,9 @@ const txtBelowCtx = txtBelowCanvas.getContext('2d')
 let memeImg = null
 const memeCanvasProps = {
   fontSize: 30,
-  lineSpacing: 2
+  lineSpacing: 2,
+  fontColor: 'black',
+  bgColor: 'white'
 }
 
 imageUpload.addEventListener('change', e => {
@@ -60,7 +63,7 @@ function wrapAndDrawText (canvas, context, text) {
   }
 
   context.font = `${fontSize}px Impact`
-  context.fillStyle = 'black'
+  context.fillStyle = memeCanvasProps.fontColor
   context.textAlign = 'center'
 
   const nextHeight = lineSpacing + fontSize
@@ -148,7 +151,7 @@ function saveAsImage () { // eslint-disable-line
   finalCanvas.height = imgCanvas.height + txtAboveCanvas.height + txtBelowCanvas.height
   finalCanvas.width = imgCanvas.width
   const ctx = finalCanvas.getContext('2d')
-  ctx.fillStyle = 'white'
+  ctx.fillStyle = memeCanvasProps.bgColor
   ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height)
   ctx.drawImage(txtAboveCanvas, 0, 0)
   ctx.drawImage(imgCanvas, 0, txtAboveCanvas.height)
@@ -157,4 +160,17 @@ function saveAsImage () { // eslint-disable-line
   link.setAttribute('download', 'Meme.png')
   link.setAttribute('href', finalCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
   link.click()
+}
+
+function toggleTheme () { // eslint-disable-line
+  canvasSet.classList.toggle('bg-white')
+  canvasSet.classList.toggle('bg-black')
+  if (memeCanvasProps.fontColor === 'black') {
+    memeCanvasProps.fontColor = 'white'
+    memeCanvasProps.bgColor = 'black'
+  } else {
+    memeCanvasProps.fontColor = 'black'
+    memeCanvasProps.bgColor = 'white'
+  }
+  repaintCanvas()
 }
