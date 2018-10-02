@@ -14,24 +14,29 @@
 <body class="bg-grey-lighter text-grey-darkest uppercase">
   <nav class="text-right" role="navigation" aria-label="main navigation">
     <div class="mr-3 my-2">
-      <img src="images/github.svg" alt="Github" width="13">
-      <a href="https://github.com/ajitid/meme-creator" target="_blank" class="no-underline text-grey-dark hover:text-grey-darker">Github</a>
+      <a href="https://github.com/ajitid/meme-creator" target="_blank" class="no-underline text-grey-dark hover:text-grey-darker">
+        <img src="images/github.svg" alt="Github" width="13">
+        View on Github
+      </a>
     </div>
   </nav>
 
   <div id="upload_container" class="flex justify-center items-center">
     <div>
-      <form name="image_upload_form">
-        <label for="image_upload">
-          <button type="button" onclick="image_upload_form.image_upload.click()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light mx-2">
-            Upload Image
+      <div class="flex justify-center">
+        <form name="image_upload_form">
+          <label for="image_upload">
+            <button type="button" onclick="image_upload_form.image_upload.click()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light mx-2">
+              Upload Image
+            </button>
+            <input type="file" id="image_upload" accept="image/png, image/jpeg" class="hidden">
+          </label>
+          <!-- FIXME proceed disabled with class -->
+          <button class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+            Proceed
           </button>
-          <input type="file" id="image_upload" accept="image/png, image/jpeg" class="hidden">
-        </label>
-        <button class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
-          Done Uploading
-        </button>
-      </form>
+        </form>
+      </div>
       <div id="image_container" class="mt-4">
 
       </div>
@@ -41,21 +46,26 @@
 
   <div id="meme_canvas_container" class="hidden justify-center items-center">
     <div>
-      <div class="mb-4">
-        <label class="font-sans">
-          Image Size:
-          <input type="number" class="font-sans p-2 border mb-2" id="meme_image_width_input">
-        </label>
-        <button type="button" onclick="saveAsImage()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
-          Save as Image
-        </button>
-        <br />
-        <input type="text" id="meme_upper_text_input" placeholder="Upper Text" class="font-sans p-2 border">
-        <input type="text" id="meme_lower_text_input" placeholder="Lower Text" class="font-sans p-2 border">
+      <div class="flex justify-center">
+        <div class="mb-4">
+          <label class="font-sans">
+            Image Width:
+            <input type="number" class="font-sans p-2 border mb-2" id="meme_image_width_input">
+          </label>
+          <button type="button" onclick="saveAsImage()" class="uppercase text-xl text-grey-darker bg-grey-light hover:bg-grey p-2 bg-grey-light">
+            Save as Image
+          </button>
+          <br />
+          <input type="text" id="meme_upper_text_input" placeholder="Upper Text" class="font-sans p-2 border">
+          <input type="text" id="meme_lower_text_input" placeholder="Lower Text" class="font-sans p-2 border">
+        </div>
       </div>
-      <div class="flex items-center justify-center">
-        <canvas id="meme_canvas" class="bg-white">
-          Your browser does not support HTML5 Canvas, please update or change your browser.
+      <div class="flex items-center justify-center flex-col mb-4">
+        <canvas id="canvas_txt_above" class="bg-white">
+        </canvas>
+        <canvas id="canvas_img" class="bg-white">
+        </canvas>
+        <canvas id="canvas_txt_below" class="bg-white">
         </canvas>
       </div>
     </div>

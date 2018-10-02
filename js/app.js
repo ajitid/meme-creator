@@ -5,20 +5,19 @@ const memeCanvasContainer = document.querySelector('#meme_canvas_container')
 const memeUpperTextInput = document.querySelector('#meme_upper_text_input')
 const memeLowerTextInput = document.querySelector('#meme_lower_text_input')
 const memeImgWidthInput = document.querySelector('#meme_image_width_input')
-const memeCanvas = document.querySelector('#meme_canvas')
-const ctx = memeCanvas.getContext('2d')
+const imgCanvas = document.querySelector('#canvas_img')
+const txtAboveCanvas = document.querySelector('#canvas_txt_above')
+const txtBelowCanvas = document.querySelector('#canvas_txt_below')
+const imgCtx = imgCanvas.getContext('2d')
+const txtAboveCtx = txtAboveCanvas.getContext('2d')
+const txtBelowCtx = txtBelowCanvas.getContext('2d')
+
+// will change to Proxy if gets complicated
 
 let memeImg = null
-let memeImgHeight = null
-let memeImgWidth = null
 const memeCanvasProps = {
   fontSize: 30,
-  lineSpacing: 5
-}
-
-function getAdditionalCanvasHeight () {
-  const { fontSize, lineSpacing } = memeCanvasProps
-  return 2 * (fontSize + lineSpacing * 2)
+  lineSpacing: 2
 }
 
 imageUpload.addEventListener('change', e => {
@@ -26,55 +25,77 @@ imageUpload.addEventListener('change', e => {
   const img = document.createElement('img')
   const blob = URL.createObjectURL(e.target.files[0])
   img.src = blob
-  img.onload = function () {
-    memeImgHeight = img.height
-    memeImgWidth = img.width
-  }
   memeImg = img.cloneNode()
+  img.onload = e => {
+    const htw = img.height / img.width
+    memeImg.width = 450
+    memeImg.height = memeImg.width * htw
+  }
   img.width = 300
   img.classList.add('border-2', 'border-dashed', 'border-grey')
   imageContainer.innerHTML = ''
   imageContainer.appendChild(img)
 })
 
+function wrapAndDrawText (canvas, context, text) {
+  const { fontSize, lineSpacing } = memeCanvasProps
+  const maxWidth = canvas.width - 18
+  const words = text.split(' ')
+  const lines = ['']
+
+  for (const word of words) {
+    const lastLine = lines[lines.length - 1]
+    const testLine = lastLine.length ? lastLine + ' ' + word : word
+    const testWidth = context.measureText(testLine).width
+    if (testWidth >= maxWidth) {
+      lines.push(word)
+    } else {
+      lines[lines.length - 1] = testLine
+    }
+  }
+
+  const totalHeight = fontSize * lines.length + lineSpacing * (lines.length + 1)
+  if (totalHeight !== canvas.height) {
+    canvas.height = totalHeight
+  }
+
+  context.font = `${fontSize}px Impact`
+  context.fillStyle = 'black'
+  context.textAlign = 'center'
+
+  const nextHeight = lineSpacing + fontSize
+  let paintingHeight = fontSize
+  for (const line of lines) {
+    context.fillText(line, canvas.width / 2, paintingHeight)
+    paintingHeight += nextHeight
+  }
+}
+
 image_upload_form.addEventListener('submit', e => { // eslint-disable-line
   e.preventDefault()
-  uploadContainer.innerHTML = ''
 
-  initializeMemeCanvas()
+  if (!imageUpload.files[0]) {
+    alert('No image is uploaded. So app won\'t proceed') // eslint-disable-line
+    return false
+  }
+
+  uploadContainer.innerHTML = ''
+  initializeCanvas()
 })
 
-function initializeMemeCanvas () {
-  const additionalCanvasHeight = getAdditionalCanvasHeight()
-
-  memeImgWidthInput.value = memeImgWidth
-  memeCanvas.height = memeImgHeight + additionalCanvasHeight
-  memeCanvas.width = memeImgWidth
-  ctx.drawImage(memeImg, 0, parseInt(additionalCanvasHeight / 2), memeImgWidth, memeImgHeight)
+function initializeCanvas () {
+  const { fontSize, lineSpacing } = memeCanvasProps
+  const { width } = memeImg
+  memeImgWidthInput.value = width
+  imgCanvas.height = memeImg.height
+  imgCanvas.width = width
+  imgCtx.drawImage(memeImg, 0, 0, width, memeImg.height)
+  txtAboveCanvas.width = width
+  txtAboveCanvas.height = fontSize + 2 * lineSpacing
+  txtBelowCanvas.width = width
+  txtBelowCanvas.height = fontSize + 2 * lineSpacing
   memeCanvasContainer.classList.remove('hidden')
   memeCanvasContainer.classList.add('flex')
-}
-
-function setMemeUpperText (text) {
-  text = text.toUpperCase()
-  const { fontSize, lineSpacing } = memeCanvasProps
-
-  ctx.clearRect(0, 0, memeCanvas.width, fontSize + lineSpacing)
-  ctx.font = `${fontSize}px Impact`
-  ctx.fillStyle = 'black'
-  ctx.textAlign = 'center'
-  ctx.fillText(text, memeCanvas.width / 2, fontSize + lineSpacing / 2)
-}
-
-function setMemeLowerText (text) {
-  text = text.toUpperCase()
-  const { fontSize, lineSpacing } = memeCanvasProps
-
-  ctx.clearRect(0, memeCanvas.height - (fontSize + 2 * lineSpacing), memeCanvas.width, fontSize + 2 * lineSpacing)
-  ctx.font = `${fontSize}px Impact`
-  ctx.fillStyle = 'black'
-  ctx.textAlign = 'center'
-  ctx.fillText(text, memeCanvas.width / 2, (memeCanvas.height - (fontSize + 2 * lineSpacing)) + (fontSize + lineSpacing / 2))
 }
 
 memeUpperTextInput.addEventListener('input', e => {
@@ -85,30 +106,55 @@ memeLowerTextInput.addEventListener('input', e => {
   setMemeLowerText(e.target.value)
 })
 
+function setMemeUpperText (text) {
+  text = text.toUpperCase()
+  txtAboveCtx.clearRect(0, 0, txtAboveCanvas.width, txtAboveCanvas.height)
+  wrapAndDrawText(txtAboveCanvas, txtAboveCtx, text.trim())
+}
+
+function setMemeLowerText (text) {
+  text = text.trim(' ').toUpperCase()
+  txtBelowCtx.clearRect(0, 0, txtBelowCanvas.width, txtBelowCanvas.height)
+  wrapAndDrawText(txtBelowCanvas, txtBelowCtx, text)
+}
+
 memeImgWidthInput.addEventListener('input', e => {
   const width = parseInt(e.target.value)
   if (!width) return
-  const additionalCanvasHeight = getAdditionalCanvasHeight()
-  const htw = memeImgHeight / memeImgWidth
-  memeImgWidth = width
-  memeImgHeight = memeImgWidth * htw
-  memeCanvas.height = memeImgHeight + additionalCanvasHeight
-  memeCanvas.width = width
-  ctx.drawImage(memeImg, 0, parseInt(additionalCanvasHeight / 2), memeImgWidth, memeImgHeight)
-  setMemeUpperText(memeUpperTextInput.value)
-  setMemeLowerText(memeLowerTextInput.value)
+  setWidthAndRepaint(width)
 })
 
+function repaintCanvas () {
+  imgCtx.drawImage(memeImg, 0, 0, memeImg.width, memeImg.height)
+  setMemeUpperText(memeUpperTextInput.value)
+  setMemeLowerText(memeLowerTextInput.value)
+}
+
+function setWidthAndRepaint (width) {
+  const htw = memeImg.height / memeImg.width
+  memeImg.width = width
+  memeImg.height = memeImg.width * htw
+  imgCanvas.width = width
+  imgCanvas.height = memeImg.height
+  txtAboveCanvas.width = width
+  txtBelowCanvas.width = width
+  repaintCanvas()
+  // TEMP_FIX
+  repaintCanvas()
+}
+
 function saveAsImage () { // eslint-disable-line
-  const bottomCanvas = document.createElement('canvas')
-  bottomCanvas.height = memeCanvas.height
-  bottomCanvas.width = memeCanvas.width
-  const ctx2 = bottomCanvas.getContext('2d')
-  ctx2.fillStyle = 'white'
-  ctx2.fillRect(0, 0, memeCanvas.width, memeCanvas.height)
-  ctx2.drawImage(memeCanvas, 0, 0)
+  const finalCanvas = document.createElement('canvas')
+  finalCanvas.height = imgCanvas.height + txtAboveCanvas.height + txtBelowCanvas.height
+  finalCanvas.width = imgCanvas.width
+  const ctx = finalCanvas.getContext('2d')
+  ctx.fillStyle = 'white'
+  ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height)
+  ctx.drawImage(txtAboveCanvas, 0, 0)
+  ctx.drawImage(imgCanvas, 0, txtAboveCanvas.height)
+  ctx.drawImage(txtBelowCanvas, 0, txtAboveCanvas.height + imgCanvas.height)
   var link = document.createElement('a')
   link.setAttribute('download', 'Meme.png')
-  link.setAttribute('href', bottomCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
+  link.setAttribute('href', finalCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
   link.click()
 }
