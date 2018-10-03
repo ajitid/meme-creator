@@ -9,6 +9,7 @@ const imgCanvas = document.querySelector('#canvas_img')
 const txtAboveCanvas = document.querySelector('#canvas_txt_above')
 const txtBelowCanvas = document.querySelector('#canvas_txt_below')
 const canvasSet = document.querySelector('#canvas_set')
+const saveImageLink = document.querySelector('#save_image_link')
 const imgCtx = imgCanvas.getContext('2d')
 const txtAboveCtx = txtAboveCanvas.getContext('2d')
 const txtBelowCtx = txtBelowCanvas.getContext('2d')
@@ -146,7 +147,7 @@ function setWidthAndRepaint (width) {
   repaintCanvas()
 }
 
-function saveAsImage () { // eslint-disable-line
+saveImageLink.addEventListener('click', e => {
   const finalCanvas = document.createElement('canvas')
   finalCanvas.height = imgCanvas.height + txtAboveCanvas.height + txtBelowCanvas.height
   finalCanvas.width = imgCanvas.width
@@ -156,11 +157,9 @@ function saveAsImage () { // eslint-disable-line
   ctx.drawImage(txtAboveCanvas, 0, 0)
   ctx.drawImage(imgCanvas, 0, txtAboveCanvas.height)
   ctx.drawImage(txtBelowCanvas, 0, txtAboveCanvas.height + imgCanvas.height)
-  const link = document.createElement('a')
-  link.setAttribute('download', 'Meme.png')
-  link.setAttribute('href', finalCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
-  link.click()
-}
+  e.target.download = 'Meme.png'
+  e.target.href = finalCanvas.toDataURL()
+})
 
 function toggleTheme () { // eslint-disable-line
   canvasSet.classList.toggle('bg-white')
