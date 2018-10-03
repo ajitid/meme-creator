@@ -156,7 +156,7 @@ function saveAsImage () { // eslint-disable-line
   ctx.drawImage(txtAboveCanvas, 0, 0)
   ctx.drawImage(imgCanvas, 0, txtAboveCanvas.height)
   ctx.drawImage(txtBelowCanvas, 0, txtAboveCanvas.height + imgCanvas.height)
-  var link = document.createElement('a')
+  const link = document.createElement('a')
   link.setAttribute('download', 'Meme.png')
   link.setAttribute('href', finalCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
   link.click()
