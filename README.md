@@ -7,7 +7,8 @@
 
 ## Features
 
-- No data consumption once site is loaded
+- Fully frontend made, so no data consumption once site is loaded.
+- Offline support! Load once, run anytime. <sub>Terms and conditions apply.</sub>
 - Dark and light theme
 - Control image resolution 
 
@@ -15,4 +16,4 @@
 
 - [x] Dark theme support
 - [ ] Breaking words
-- [ ] Offline support
+- [x] Offline support
