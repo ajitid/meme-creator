@@ -2,12 +2,13 @@
 var cacheName = 'WWW-EXAMPLE-COM-V1'
 
 var filesToCache = [
+  '/',
   '/index.html', // index.html
   '/main.js',
   '/css/style.css',
+  '/css/tailwind.min.css',
   '/images/github.svg',
   '/fonts/impact.woff'
-
 ]
 
 self.addEventListener('install', function (event) {
