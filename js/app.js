@@ -17,6 +17,7 @@ const txtBelowCtx = txtBelowCanvas.getContext('2d')
 // will change to Proxy if gets complicated
 
 let memeImg = null
+let htw
 const memeCanvasProps = {
   fontSize: 30,
   lineSpacing: 2,
@@ -31,7 +32,7 @@ imageUpload.addEventListener('change', e => {
   img.src = blob
   memeImg = img.cloneNode()
   img.onload = e => {
-    const htw = img.height / img.width
+    htw = img.height / img.width
     memeImg.width = 400
     memeImg.height = memeImg.width * htw
   }
@@ -135,7 +136,6 @@ function repaintCanvas () {
 }
 
 function setWidthAndRepaint (width) {
-  const htw = memeImg.height / memeImg.width
   memeImg.width = width
   memeImg.height = memeImg.width * htw
   imgCanvas.width = width
